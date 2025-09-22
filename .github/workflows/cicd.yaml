@@ -33,8 +33,19 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push saihari1/wisecow:latest
 
-      
-      - name: Deploy to Kubernetes
+      - name: Install NGINX Ingress Controller
+        run: |
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
+          
+          # Wait for controller to be ready (optional but safer)
+          echo "Waiting for ingress controller to be ready..."
+          kubectl rollout status deployment ingress-nginx-controller -n ingress-nginx --timeout=180s
+
+      - name: Scale Ingress Controller to match node count (2 in your case)
+        run: |
+          kubectl scale deployment ingress-nginx-controller -n ingress-nginx --replicas=2
+
+      - name: Deploy Application to Kubernetes
         run: |
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
