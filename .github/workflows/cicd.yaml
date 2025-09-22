@@ -33,21 +33,27 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push saihari1/wisecow:latest
 
-      - name: Install NGINX Ingress Controller
-        run: |
-          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
-          
-          # Wait for controller to be ready (optional but safer)
-          echo "Waiting for ingress controller to be ready..."
-          kubectl rollout status deployment ingress-nginx-controller -n ingress-nginx --timeout=180s
-
-      - name: Scale Ingress Controller to match node count (2 in your case)
-        run: |
-          kubectl scale deployment ingress-nginx-controller -n ingress-nginx --replicas=2
-
-      - name: Deploy Application to Kubernetes
+      - name: Deploy Application Manifests
         run: |
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
+
+      - name: Install NGINX Ingress Controller (only if not exists)
+        run: |
+          if ! kubectl get ns ingress-nginx >/dev/null 2>&1; then
+            echo "Ingress controller not found, installing..."
+            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
+            # Wait for ingress controller pods to be ready
+            kubectl -n ingress-nginx rollout status deployment/ingress-nginx-controller --timeout=120s
+          else
+            echo "Ingress controller already installed. Skipping."
+          fi
+
+      - name: Scale Ingress Controller to 2 replicas
+        run: |
+          kubectl scale deployment ingress-nginx-controller -n ingress-nginx --replicas=2
+
+      - name: Deploy Ingress Manifest
+        run: |
           kubectl apply -f k8s/ingress.yaml
 
