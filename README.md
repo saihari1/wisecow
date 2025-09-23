@@ -1,4 +1,4 @@
-# Cow wisdom web server
+# Cow wisdom web server deployment
 
 ## Prerequisites
 
