@@ -28,10 +28,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t saihari1/wisecow:latest .
+        run: docker build -t saihari1/wisecow:new .
 
       - name: Push Docker image to Docker Hub
-        run: docker push saihari1/wisecow:latest
+        run: docker push saihari1/wisecow:new
 
       - name: Deploy Application Manifests
         run: |
