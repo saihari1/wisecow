@@ -1,0 +1,37 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: wisecow-zero-trust
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: wisecow
+  action: Allow
+  process:
+    matchPaths:
+      - path: /usr/bin/bash
+      - path: /usr/bin/tini
+      - path: /usr/games/fortune
+      - path: /usr/games/cowsay
+      - path: /usr/bin/nc.openbsd
+      - path: /usr/bin/env
+      - path: /usr/bin/cat
+      - path: /usr/bin/perl
+      - path: /app/wisecow.sh
+  file:
+    matchPaths:
+      - path: /app/wisecow.sh
+      - path: /usr/share/games/fortunes/**
+      - path: /usr/share/cows/**
+      - path: /usr/share/perl/5.34/Getopt/Std.pm
+      - path: /etc/protocols
+      - path: /etc/services
+      - path: /etc/nsswitch.conf
+      - path: /etc/host.conf
+      - path: /etc/hosts
+      - path: /etc/resolv.conf
+  network:
+    matchProtocols:
+      - protocol: tcp
+      - protocol: udp
