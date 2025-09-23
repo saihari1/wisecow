@@ -26,3 +26,10 @@ Deploy the wisecow application as a k8s app
 1. Github repo containing the app with corresponding dockerfile, k8s manifest, any other artifacts needed.
 2. Github repo with corresponding github action.
 3. Github repo should be kept private and the access should be enabled for following github IDs: nyrahul
+
+### Denied Actions of Zero Trust Policy
+
+The following shows what actions are blocked by the KubeArmor Zero Trust policy:
+
+![Denied Actions](k8s/denied-actions.png)
+
