@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
-  ingressClassName: nginx  # This is required for modern clusters
+  ingressClassName: nginx  
   tls:
     - hosts:
         - wisecow.harinadh.xyz
