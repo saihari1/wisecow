@@ -31,5 +31,6 @@ Deploy the wisecow application as a k8s app
 
 The following shows what actions are blocked by the KubeArmor Zero Trust policy:
 
-![Denied Actions](k8s/denied-actions.png)
+![Denied Actions](k8s/WhatsApp%20Image%202025-09-24%20at%203.19.42%20AM.jpeg)
+
 
