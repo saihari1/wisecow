@@ -10,10 +10,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ENV PATH="/usr/games:${PATH}"
 
-COPY wisecow.sh /usr/local/bin/wisecow.sh
-RUN chmod +x /usr/local/bin/wisecow.sh
+WORKDIR /app
+
+COPY wisecow.sh /app/wisecow.sh
+RUN chmod +x /app/wisecow.sh
 
 EXPOSE 4499
 
-CMD ["/usr/local/bin/wisecow.sh"]
+CMD ["/app/wisecow.sh"]
 
