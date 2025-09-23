@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: wisecow
+      annotations:
+        kubearmor-policy: wisecow-zero-trust   # <- attach policy here
     spec:
       containers:
       - name: wisecow
@@ -18,3 +20,4 @@ spec:
         ports:
         - containerPort: 4499
         imagePullPolicy: Always
+

@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fortunes \
     cowsay \
     netcat-openbsd \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PATH="/usr/games:${PATH}"
@@ -16,5 +17,7 @@ RUN chmod +x /app/wisecow.sh
 
 EXPOSE 4499
 
+# Use tini as the entrypoint
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/app/wisecow.sh"]
 
